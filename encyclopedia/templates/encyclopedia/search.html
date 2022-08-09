@@ -1,0 +1,19 @@
+{% extends "encyclopedia/layout.html" %}
+{% block title %}
+{{query}}| Encyclopedia
+{% endblock %}
+
+{% block body %}
+{% if found_entries %}
+<br>
+<h4>There are matching records</h4>
+<ul>
+{% for entries in found_entries %}
+    <li><a href="{% url 'encyclopedia:title' entries %}">{{ entries }}</a></li>
+{% endfor %}
+</ul>
+{% else %}
+<h3>No matching records, please try again</h3>
+{% endif %}
+
+{% endblock %}
