@@ -1,11 +1,12 @@
 
+from contextlib import redirect_stderr
 from django.http import HttpResponseRedirect
 from django.shortcuts import render,redirect,HttpResponse
 from markdown2 import Markdown
 from . import util
 from django import forms
 from django.urls import reverse
-import random
+from random import choice
 class NewPageForm(forms.Form):
     title = forms.CharField(label="Title", required=True, widget= forms.TextInput(attrs={"class":"form-control"}),)
     content = forms.CharField(label="content",required=True,widget = forms.Textarea(attrs = {"class":"form-control"}),)
@@ -56,12 +57,16 @@ def add(request):
         "form": NewPageForm()
     })
 
+# def random(request):
+#     entries = util.list_entries()
+#     rand_entry = entries[randint(0, len(entries) - 1)]
+#     #return redirect("encyclopedia:title",rand_entry)
+#     return HttpResponse(rand_entry)
 def random(request):
     entries = util.list_entries()
-    rand_entry = random.choice(entries)
-    #return redirect("encyclopedia:title",rand_entry)
-    return HttpResponse(rand_entry)
-    
+    rand_entry = choice(entries)
+    return redirect("encyclopedia:title",rand_entry)
+
 def search(request):
     query = request.GET.get("q")
     entries = util.list_entries()
